@@ -3,6 +3,11 @@ __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
+.venv/
+test_ecommerce.db
+verify_*.db
+verify_*.log
+verify_browser_home.png
 
 # Node.js
 node_modules/

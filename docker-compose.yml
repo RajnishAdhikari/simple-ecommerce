@@ -1,20 +1,39 @@
-version: '3.8'
+version: '3.9'
 
 services:
   db:
-    image: postgres:latest
+    image: postgres:16-alpine
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
       POSTGRES_DB: ecommerce_db
-    ports:
-      - "5432:5432"
-
-  fastapi:
-    image: tiangolo/uvicorn-gunicorn-fastapi:latest
+      POSTGRES_USER: ecommerce
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}"
     volumes:
-      - ./app:/app
-    ports:
-      - "8000:80"
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ecommerce -d ecommerce_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build: .
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    environment:
+      APP_ENV: "${APP_ENV:-production}"
+      DATABASE_URL: "${DATABASE_URL:?Set DATABASE_URL}"
+      SECRET_KEY: "${SECRET_KEY:?Set SECRET_KEY}"
+      ADMIN_API_KEY: "${ADMIN_API_KEY:?Set ADMIN_API_KEY}"
+      ADMIN_EMAILS: "${ADMIN_EMAILS:?Set ADMIN_EMAILS}"
+      TOKEN_EXPIRE_MINUTES: "30"
+      ALLOWED_HOSTS: "${ALLOWED_HOSTS:?Set ALLOWED_HOSTS}"
+      CORS_ALLOWED_ORIGINS: "${CORS_ALLOWED_ORIGINS:?Set CORS_ALLOWED_ORIGINS}"
+      IMAGE_ALLOWED_HOSTS: "${IMAGE_ALLOWED_HOSTS:-images.unsplash.com}"
+      TRUST_X_FORWARDED_FOR: "false"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

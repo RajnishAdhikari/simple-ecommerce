@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkyCart | Trend Commerce</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+</head>
+<body>
+  <div class="ticker" id="ticker"></div>
+
+  <header class="site-header">
+    <div class="brand-wrap">
+      <button id="mobileMenuBtn" class="icon-btn mobile-only" aria-label="Open menu">Menu</button>
+      <h1 class="brand">SkyCart</h1>
+      <span class="brand-tag">FLASH TREND ZONE</span>
+    </div>
+
+    <div class="search-wrap">
+      <input id="searchInput" type="search" placeholder="Search products, brands, categories" autocomplete="off" />
+      <div id="searchSuggestions" class="search-suggestions hidden"></div>
+    </div>
+
+    <div class="action-wrap">
+      <button id="authBtn" class="pill-btn">Sign In</button>
+      <button id="cartBtn" class="cart-btn">
+        Cart
+        <span id="cartCount" class="count-badge">0</span>
+      </button>
+    </div>
+  </header>
+
+  <nav id="mobileMenu" class="mobile-menu hidden" aria-hidden="true">
+    <button id="mobileAuthBtn" class="menu-item">Account</button>
+    <button id="mobileCartBtn" class="menu-item">Cart</button>
+  </nav>
+
+  <main>
+    <section class="hero" id="heroSlides"></section>
+
+    <section class="flash-strip">
+      <div class="strip-item">Free shipping above $99</div>
+      <div class="strip-item">New users get 15% OFF</div>
+      <div class="strip-item">Express delivery in select cities</div>
+    </section>
+
+    <section class="toolbar">
+      <div id="categoryChips" class="chips"></div>
+      <div class="sort-wrap">
+        <label for="sortSelect">Sort</label>
+        <select id="sortSelect">
+          <option value="trending">Trending</option>
+          <option value="relevance">Relevance</option>
+          <option value="newest">Newest</option>
+          <option value="rating">Top Rating</option>
+          <option value="price_asc">Price: Low to High</option>
+          <option value="price_desc">Price: High to Low</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="content-head">
+      <h2 id="productHeading">Trending Picks</h2>
+      <p id="resultCount">0 products</p>
+    </section>
+
+    <section class="recommendation-block">
+      <div class="content-head">
+        <h2 id="recommendHeading">Recommended For You</h2>
+        <p id="recommendCount">0 products</p>
+      </div>
+      <section id="recommendGrid" class="recommend-grid"></section>
+    </section>
+
+    <section id="productGrid" class="product-grid"></section>
+  </main>
+
+  <aside id="cartDrawer" class="cart-drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <h3>Your Cart</h3>
+      <button id="closeCartBtn" class="icon-btn" aria-label="Close cart">X</button>
+    </div>
+    <div id="cartItems" class="drawer-items"></div>
+    <div class="drawer-foot">
+      <div class="price-row"><span>Subtotal</span><span id="subtotalValue">$0.00</span></div>
+      <div class="price-row"><span>Shipping</span><span id="shippingValue">$0.00</span></div>
+      <div class="price-row total"><span>Total</span><span id="totalValue">$0.00</span></div>
+      <textarea id="addressInput" placeholder="Enter shipping address"></textarea>
+      <button id="checkoutBtn" class="checkout-btn">Place Order</button>
+    </div>
+  </aside>
+
+  <div id="overlay" class="overlay" hidden></div>
+
+  <section id="authModal" class="modal" aria-hidden="true">
+    <div class="modal-head">
+      <h3>Account Access</h3>
+      <button id="closeAuthBtn" class="icon-btn" aria-label="Close auth">X</button>
+    </div>
+    <div class="auth-switch">
+      <button id="loginTab" class="active">Login</button>
+      <button id="registerTab">Register</button>
+    </div>
+
+    <form id="loginForm" class="auth-form">
+      <input name="email" type="email" placeholder="Email" required />
+      <input name="password" type="password" placeholder="Password" required minlength="10" maxlength="72" />
+      <button type="submit">Login</button>
+    </form>
+
+    <form id="registerForm" class="auth-form hidden">
+      <input name="full_name" type="text" placeholder="Full name" required minlength="2" maxlength="100" />
+      <input name="username" type="text" placeholder="Username" required minlength="3" maxlength="30" />
+      <input name="email" type="email" placeholder="Email" required />
+      <input name="password" type="password" placeholder="Password" required minlength="10" maxlength="72" />
+      <small>Password must include upper, lower, number, and symbol.</small>
+      <button type="submit">Create Account</button>
+    </form>
+  </section>
+
+  <section id="quickViewModal" class="modal quick-view" aria-hidden="true">
+    <div class="modal-head">
+      <h3>Quick View</h3>
+      <button id="closeQuickViewBtn" class="icon-btn" aria-label="Close quick view">X</button>
+    </div>
+    <div id="quickViewBody" class="quick-view-body"></div>
+  </section>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script type="module" src="/assets/app.js"></script>
+</body>
+</html>
