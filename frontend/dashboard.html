@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkyCart Admin — Product Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/dashboard.css" />
+</head>
+<body>
+
+  <!-- Login Screen -->
+  <div id="loginScreen" class="login-screen">
+    <div class="login-card">
+      <div class="login-brand">
+        <span class="login-logo">SkyCart</span>
+        <span class="login-tag">Admin Dashboard</span>
+      </div>
+      <h2 class="login-title">Product Social Media Hub</h2>
+      <p class="login-desc">Enter your Admin API Key to browse all products and copy ready-made social media captions.</p>
+      <div id="loginError" class="login-error hidden"></div>
+      <label class="field-label" for="apiKeyInput">Admin API Key</label>
+      <input type="password" id="apiKeyInput" class="field-input" placeholder="Paste your admin API key…" autocomplete="off" spellcheck="false" />
+      <button id="loginBtn" class="login-btn">Open Dashboard</button>
+    </div>
+  </div>
+
+  <!-- Loading Screen -->
+  <div id="loadingScreen" class="loading-screen hidden">
+    <div class="spinner"></div>
+    <p class="loading-text">Loading products…</p>
+  </div>
+
+  <!-- Main Dashboard -->
+  <div id="dashboard" class="dashboard hidden">
+
+    <header class="dash-header">
+      <div class="dash-header-left">
+        <a href="/" class="dash-brand">SkyCart</a>
+        <span class="dash-label">Admin Dashboard</span>
+      </div>
+      <div class="dash-search-wrap">
+        <input type="search" id="dashSearch" class="dash-search" placeholder="Search products, brands…" autocomplete="off" />
+      </div>
+      <div class="dash-header-right">
+        <span id="productCount" class="product-count"></span>
+        <button id="logoutBtn" class="logout-btn">Sign Out</button>
+      </div>
+    </header>
+
+    <div class="category-bar" id="categoryBar" role="toolbar" aria-label="Category filter"></div>
+
+    <main class="dash-main">
+      <div class="product-list" id="productList"></div>
+      <div id="emptyState" class="empty-state hidden">
+        <p>No products match your search.</p>
+        <button id="clearSearchBtn" class="clear-btn">Clear search</button>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+  <script src="/assets/dashboard.js"></script>
+</body>
+</html>

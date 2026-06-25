@@ -1,11 +1,13 @@
-from fastapi import APIRouter, Depends, status
+from typing import Optional
+
+from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy.orm import Session
 
 from ..content_generator import build_product_content
 from ..database import get_db
 from ..models import Product
 from ..schemas import AdminProductCreateRequest, ProductContentRequest
-from ..security import require_admin_user
+from ..security import require_admin_key, require_admin_user
 from ..store import product_to_payload
 
 router = APIRouter(prefix="/api/admin", tags=["Admin Content"])
@@ -14,6 +16,46 @@ DEFAULT_PRODUCT_IMAGE_URL = (
     "https://images.unsplash.com/photo-1523275335684-37898b6baf30"
     "?auto=format&fit=crop&w=900&q=80"
 )
+
+
+@router.get("/products/dashboard")
+def get_dashboard_products(
+    category: Optional[str] = Query(default=None),
+    _: None = Depends(require_admin_key),
+    db: Session = Depends(get_db),
+):
+    query = db.query(Product).filter(Product.is_active == True)  # noqa: E712
+    if category and category != "All":
+        query = query.filter(Product.category == category)
+    products = query.order_by(Product.category, Product.name).all()
+
+    all_categories = (
+        db.query(Product.category)
+        .filter(Product.is_active == True)  # noqa: E712
+        .distinct()
+        .all()
+    )
+    categories = sorted({row.category for row in all_categories})
+
+    result = []
+    for product in products:
+        content = build_product_content({
+            "name": product.name,
+            "brand": product.brand,
+            "category": product.category,
+            "description": product.description,
+            "price": product.price,
+            "original_price": product.original_price,
+            "colors": product.colors or [],
+            "sizes": product.sizes or [],
+        })
+        result.append({
+            "product": product_to_payload(product),
+            "description": content["description"],
+            "social_content": content["social_media_formats"],
+        })
+
+    return {"products": result, "total": len(result), "categories": categories}
 
 
 @router.post("/products/content-preview")

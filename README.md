@@ -57,26 +57,21 @@ curl -X POST http://localhost:8000/api/admin/products/content-preview `
 ## Local setup (virtual env)
 
 1. Open terminal in project root:
-   ```powershell
-   cd "ecommerce-platform"
-   ```
+cd ecommerce-platform
+
 2. Create virtual environment:
-   ```powershell
    python -m venv .venv
-   ```
+
 3. Activate virtual environment:
-   ```powershell
-   .\.venv\Scripts\Activate.ps1
-   ```
+.\.venv\Scripts\Activate.ps1
+
 4. Install dependencies:
-   ```powershell
    pip install --upgrade pip
    pip install -r backend/requirements.txt
-   ```
+
    For local testing/security tooling:
-   ```powershell
    pip install -r backend/requirements-dev.txt
-   ```
+   
 5. Create env file from template:
    ```powershell
    copy .env.example .env

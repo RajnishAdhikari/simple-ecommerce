@@ -224,3 +224,10 @@ def require_admin_user(
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Admin access denied")
 
     return current_user
+
+
+def require_admin_key(
+    request: Request,
+    x_admin_api_key: Optional[str] = Header(default=None, alias="X-Admin-API-Key"),
+) -> None:
+    _enforce_admin_api_key(request=request, x_admin_api_key=x_admin_api_key)
